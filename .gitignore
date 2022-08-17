@@ -4,6 +4,9 @@
 # ignoring the build folder.
 build/
 
+# main
+main.cpp
+
 # ignoring visual studio files
 *.sln
 *.vcxproj.user
