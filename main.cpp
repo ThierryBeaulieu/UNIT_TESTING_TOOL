@@ -5,6 +5,7 @@
 #include <vector>
 #include <utility>
 #include <string>
+#include <memory>
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <windows.h>
 #endif
@@ -13,7 +14,8 @@ enum Font {
    GreenBlack = 10,
    BlackGreen = 160,
    WhiteBlack = 15,
-   GreenYellow = 16,
+   BlackGrey = 112,
+   BlackBlue = 116,
 };
 
 void setTextColor(unsigned char color) {
@@ -53,14 +55,14 @@ public:
    void setDescription(const std::string& description) {
       description_ = description;
    }
-   const std::vector<Test>& getSubTests() {
+   std::vector<std::shared_ptr<Test>> getSubTests() {
       return subTests_;
    }
    virtual const std::vector<std::pair<bool, int>>& getResult() = 0;
    virtual void print() = 0;
 private:
    std::string description_;
-   std::vector<Test> subTests_;
+   std::vector<std::shared_ptr<Test>> subTests_;
 };
 
 // leaf
@@ -117,7 +119,15 @@ public:
       return result;
    }
    virtual void print() {
-      std::cout << "This is a container" << std::endl;
+      setTextColor(Font::BlackGreen);
+      std::cout << "=================================" << std::endl;
+      std::cout << "Starting tests:                  " << std::endl;
+      std::cout << "=================================" << std::endl;
+      resetTextColor();
+      std::vector<std::shared_ptr<Test>> subTests = getSubTests();
+      for (auto test : subTests) {
+         test->print();
+      }
    }
 private:
 };
