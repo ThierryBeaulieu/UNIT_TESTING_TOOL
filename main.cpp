@@ -16,36 +16,39 @@ enum Font {
    WhiteBlack = 15,
    BlackGrey = 112,
    BlackBlue = 116,
+   BlackRed = 64,
+   RedBlack = 4,
 };
 
-void setTextColor(unsigned char color) {
+namespace Design {
+   void setTextColor(unsigned char color) {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-   HANDLE console_color;
-   console_color = GetStdHandle(STD_OUTPUT_HANDLE);
-   SetConsoleTextAttribute(console_color, color);
+      HANDLE console_color;
+      console_color = GetStdHandle(STD_OUTPUT_HANDLE);
+      SetConsoleTextAttribute(console_color, color);
 #endif
-}
-
-void printAllColorCombinations() {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-   HANDLE console_color;
-   console_color = GetStdHandle(STD_OUTPUT_HANDLE);
-   for (int k = 1; k < 255; k++)
-   {
-      SetConsoleTextAttribute(console_color, k);
-      std::cout << k << " This is a really nice color!" << std::endl;
    }
-#endif
-}
 
-void resetTextColor() {
+   void printAllColorCombinations() {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-   HANDLE console_color;
-   console_color = GetStdHandle(STD_OUTPUT_HANDLE);
-   SetConsoleTextAttribute(console_color, Font::WhiteBlack);
+      HANDLE console_color;
+      console_color = GetStdHandle(STD_OUTPUT_HANDLE);
+      for (int k = 1; k < 255; k++)
+      {
+         SetConsoleTextAttribute(console_color, k);
+         std::cout << k << " This is a really nice color!" << std::endl;
+      }
 #endif
-}
+   }
 
+   void resetTextColor() {
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+      HANDLE console_color;
+      console_color = GetStdHandle(STD_OUTPUT_HANDLE);
+      SetConsoleTextAttribute(console_color, Font::WhiteBlack);
+#endif
+   }
+}
 
 class Test {
 public:
@@ -66,8 +69,10 @@ public:
       subTests_.push_back(subTest);
    }
    virtual void print() {
-      std::cout << description_ << std::endl;
+      if (description_ != "") std::cout << description_ << std::endl;
+
       for (auto test : getSubTests()) {
+         std::cout << "\t";
          test->print();
       }
    }
@@ -103,12 +108,17 @@ public:
       return result;
    }
    virtual void print() {
+      std::cout << "\t";
       if (isAnswerCorrect_) {
+         Design::setTextColor(Font::GreenBlack);
          std::cout << "[X] Test passed" << std::endl;
       }
       else {
+         Design::setTextColor(Font::RedBlack);
          std::cout << "[ ] Test failed" << std::endl;
       }
+      Design::resetTextColor();
+
    }
    void addSubTest() {}
 private:
@@ -129,11 +139,11 @@ class TestContainer : public Test {
 public:
    TestContainer() : Test() {}
    void present() {
-      setTextColor(Font::BlackGreen);
+      Design::setTextColor(Font::BlackGreen);
       std::cout << "=================================" << std::endl;
       std::cout << "Starting tests:                  " << std::endl;
       std::cout << "=================================" << std::endl;
-      resetTextColor();
+      Design::resetTextColor();
    }
    void addSubTest(std::shared_ptr<TestSuite> testSuite) {
       Test::addTest(testSuite);
@@ -173,10 +183,12 @@ public:
 int main() {
 BeginTesting
    BeginTestSuite("Verification of the tests")
-      BeginTest("Asserting", 20)
-         int x = 6;
-         ExpectEqual(x, 5)
-      EndTest
+      BeginTestSuite("Second test suite")
+         BeginTest("Asserting", 20)
+            int x = 6;
+            ExpectEqual(x, 5)
+         EndTest
+      EndTestSuite
    EndTestSuite
 
    BeginTestSuite("Second test")
