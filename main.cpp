@@ -92,9 +92,7 @@ public:
    virtual void print() {
 
    }
-   void addSubTest() {
-
-   }
+   void addSubTest() {}
 private:
    bool isAnswerCorrect_;
    int ponderation_;
@@ -113,7 +111,7 @@ public:
 
    }
    void addSubTest(std::shared_ptr<UnitTest> unitTest) {
-      
+      Test::addTest(unitTest);
    }
 };
 
@@ -137,8 +135,8 @@ public:
          test->print();
       }
    }
-   void addSubTest() {
-
+   void addSubTest(std::shared_ptr<TestSuite> testSuite) {
+      Test::addTest(testSuite);
    }
 };
 
