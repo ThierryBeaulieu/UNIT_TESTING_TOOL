@@ -8,4 +8,5 @@ Here is a quick example to show how to use the library.
 
 ## Result
 Here is the result that you should obtain using the library.
+
 ![Result](https://github.com/ThierryBeaulieu/UNIT_TESTING_TOOL/blob/master/assertion_result.PNG)
