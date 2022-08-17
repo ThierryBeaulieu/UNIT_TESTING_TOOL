@@ -84,7 +84,7 @@ protected:
 
 class UnitTest : public Test {
 public:
-   UnitTest(std::string description, int ponderation) : Test(description), ponderation_(ponderation), isAnswerCorrect_(false) {}
+   UnitTest(const std::string& description, int ponderation) : Test(description), ponderation_(ponderation), isAnswerCorrect_(false) {}
    const int getPonderation() {
       return ponderation_;
    }
@@ -163,8 +163,8 @@ public:
 // TODO: Add a queue so that all tests are going to 
 // be verified before using a color?
 #define BeginTest(testName, ponderation) {\
-   std::shared_ptr<UnitTest> unitTest = std::make_shared<UnitTest>(testName, ponderation);
-
+   std::shared_ptr<UnitTest> unitTest = std::make_shared<UnitTest>(testName, ponderation);\
+   container.addSubTest(unitTest);
 
 #define EndTest }
 
