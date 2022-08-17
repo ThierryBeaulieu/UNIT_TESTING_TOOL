@@ -65,6 +65,12 @@ public:
    std::vector<std::shared_ptr<Test>> getSubTests() {
       return subTests_;
    }
+   virtual bool isPassed() {
+      for (auto test : getSubTests()) {
+         if(!test->isPassed()) return false;
+      }
+      return true;
+   }
    virtual void addTest(std::shared_ptr<Test> subTest) {
       subTests_.push_back(subTest);
    }
@@ -73,7 +79,14 @@ public:
 
       for (auto test : getSubTests()) {
          std::cout << "\t";
+         if (Test::isPassed()) {
+            Design::setTextColor(Font::BlackGreen);
+         }
+         else {
+            Design::setTextColor(Font::BlackRed);
+         }
          test->print();
+         Design::resetTextColor();
       }
    }
    virtual const std::vector<std::pair<bool, int>>& getResult() {
@@ -121,6 +134,9 @@ public:
 
    }
    void addSubTest() {}
+   virtual bool isPassed() {
+      return isAnswerCorrect_;
+   }
 private:
    bool isAnswerCorrect_;
    int ponderation_;
@@ -182,13 +198,11 @@ public:
 
 int main() {
 BeginTesting
-   BeginTestSuite("Verification of the tests")
       BeginTestSuite("Second test suite")
          BeginTest("Asserting", 20)
             int x = 6;
             ExpectEqual(x, 5)
          EndTest
-      EndTestSuite
    EndTestSuite
 
    BeginTestSuite("Second test")
