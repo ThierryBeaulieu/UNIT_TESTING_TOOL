@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <utility>
+#include <string>
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <windows.h>
 #endif
@@ -84,13 +86,10 @@ class Test {
       const std::vector<Test>& getSubTests() {
          return subTests_;
       }
-      const std::vector<std::pair<int, int>>& getResult() {
-         return results_;
-      }
+      virtual const std::vector<std::pair<bool, int>>& getResult() = 0;
    private:
    std::string description_;
    std::vector<Test> subTests_;
-   std::vector<std::pair<int, int>> results_;
 };
 
 // leaf
@@ -103,7 +102,19 @@ class UnitTest: public Test {
       void setPonderation(int ponderation) {
          ponderation_ = ponderation;
       }
+      bool isAnswerCorrect() {
+         return isAnswerCorrect_;
+      }
+      void setAnswer(bool result) {
+         isAnswerCorrect_ = result;
+      }
+      virtual const std::vector<std::pair<bool, int>>& getResult() {
+         std::vector<std::pair<bool, int>> result;
+         result.push_back(std::make_pair(isAnswerCorrect_, ponderation_));
+         return result;
+      }
    private:
+      bool isAnswerCorrect_;
       int ponderation_;
 };
 
