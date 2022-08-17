@@ -75,19 +75,45 @@ void printUnit(const std::string& testName) {
 
 class Test {
    public:
-      Test(){}
+      const std::string& getDescription() {
+         return description_;
+      }
+      const int getPonderation() {
+         return ponderation_;
+      }
+      void setPonderation(int ponderation) {
+         ponderation_ = ponderation;
+      }
+      void setDescription(const std::string& description) {
+         description_ = description;
+      }
+      const std::vector<Test>& getSubTests() {
+         return subTests_;
+      }
+   private:
+   std::string description_;
+   std::vector<Test> subTests_;
+   int ponderation_;
+};
+
+// leaf
+class UnitTest: public Test {
+   public:
+      UnitTest(): Test() {}
    private:
 };
 
-class TestSuite {
+//
+class TestSuite: public Test {
    public:
-      TestSuite(){}
+      TestSuite(): Test() {}
+
    private:
 };
 
-class TestContainer {
+class TestContainer: public Test {
    public:
-      TestContainer(){}
+      TestContainer(): Test() {}
    private:
 };
 
