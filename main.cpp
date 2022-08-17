@@ -49,6 +49,10 @@ void resetTextColor() {
 
 class Test {
 public:
+   Test(){}
+   Test(const std::string& description) {
+      description_ = description;
+   }
    const std::string& getDescription() {
       return description_;
    }
@@ -102,6 +106,7 @@ private:
 class TestSuite : public Test {
 public:
    TestSuite() : Test() {}
+   TestSuite(const std::string& description): Test() {}
    virtual const std::vector<std::pair<bool, int>>& getResult() {
       std::vector<std::pair<bool, int>> result;
       result.push_back(std::make_pair(false, 1));
@@ -125,15 +130,17 @@ public:
       return result;
    }
    virtual void print() {
+      std::vector<std::shared_ptr<Test>> subTests = getSubTests();
+      for (auto test : subTests) {
+         test->print();
+      }
+   }
+   void present() {
       setTextColor(Font::BlackGreen);
       std::cout << "=================================" << std::endl;
       std::cout << "Starting tests:                  " << std::endl;
       std::cout << "=================================" << std::endl;
       resetTextColor();
-      std::vector<std::shared_ptr<Test>> subTests = getSubTests();
-      for (auto test : subTests) {
-         test->print();
-      }
    }
    void addSubTest(std::shared_ptr<TestSuite> testSuite) {
       Test::addTest(testSuite);
@@ -143,13 +150,15 @@ public:
 
 #define BeginTesting { \
    TestContainer container = TestContainer(); \
-   container.print();
+   container.present();
 
-#define EndTesting }
+#define EndTesting \
+   container.print();\
+}
 
 
 #define BeginTestSuite(testName) {\
-
+   std::shared_ptr<TestSuite> testSuite = std::make_shared<TestSuite>(testName);
 #define EndTestSuite }
 
 
