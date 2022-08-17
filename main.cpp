@@ -9,6 +9,42 @@
 #include <windows.h>
 #endif
 
+enum Font {
+   GreenBlack = 10,
+   BlackGreen = 160,
+   WhiteBlack = 15,
+   GreenYellow = 16,
+};
+
+void setTextColor(unsigned char color) {
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+   HANDLE console_color;
+   console_color = GetStdHandle(STD_OUTPUT_HANDLE);
+   SetConsoleTextAttribute(console_color, color);
+#endif
+}
+
+void printAllColorCombinations() {
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+   HANDLE console_color;
+   console_color = GetStdHandle(STD_OUTPUT_HANDLE);
+   for (int k = 1; k < 255; k++)
+   {
+      SetConsoleTextAttribute(console_color, k);
+      std::cout << k << " This is a really nice color!" << std::endl;
+   }
+#endif
+}
+
+void resetTextColor() {
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+   HANDLE console_color;
+   console_color = GetStdHandle(STD_OUTPUT_HANDLE);
+   SetConsoleTextAttribute(console_color, Font::WhiteBlack);
+#endif
+}
+
+
 class Test {
 public:
    const std::string& getDescription() {
@@ -83,71 +119,19 @@ private:
 };
 
 
-enum Font {
-   GreenBlack = 10,
-   BlackGreen = 160,
-   WhiteBlack = 15,
-   GreenYellow = 16,
-};
-
-void printSuite(const std::string& content) {
-   std::cout << content << std::endl;
-}
-
-void setTextColor(unsigned char color) {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-   HANDLE console_color;
-   console_color = GetStdHandle(STD_OUTPUT_HANDLE);
-   SetConsoleTextAttribute(console_color, color);
-#endif
-}
-
-void printAllColorCombinations() {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-   HANDLE console_color;
-   console_color = GetStdHandle(STD_OUTPUT_HANDLE);
-   for (int k = 1; k < 255; k++)
-   {
-      SetConsoleTextAttribute(console_color, k);
-      std::cout << k << " This is a really nice color!" << std::endl;
-   }
-#endif
-}
-
-void resetTextColor() {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-   HANDLE console_color;
-   console_color = GetStdHandle(STD_OUTPUT_HANDLE);
-   SetConsoleTextAttribute(console_color, Font::WhiteBlack);
-#endif
-}
-
-#define BeginTestSuite(testName) {\
-   setTextColor(Font::BlackGreen);\
-   printSuite(testName);\
-   resetTextColor();
+#define BeginTestSuite(testName) {
 
 #define EndTestSuite }
-
-void printUnit(const std::string& testName) {
-   std::cout << "[X] " << testName << std::endl;
-}
 
 
 // TODO: Add a queue so that all tests are going to 
 // be verified before using a color?
-#define BeginTest(testName, ponderation) {\
-   setTextColor(Font::GreenBlack);\
-   printUnit(testName);\
-   resetTextColor();
+#define BeginTest(testName, ponderation) {
 
 #define EndTest }
 
 
-#define ExpectEqual(element1, element2)\
-   if (element1 == element2){\
-   std::cout << "Hello world" << std::endl;\
-   }
+#define ExpectEqual(element1, element2)
 
 #define BeginTesting
 #define EndTesting
