@@ -89,10 +89,16 @@ public:
          Design::resetTextColor();
       }
    }
-   virtual const std::vector<std::pair<bool, int>>& getResult() {
-      std::vector<std::pair<bool, int>> result;
-      result.push_back(std::make_pair(false, 1));
-      return result;
+   virtual std::vector<std::pair<bool, int>> getResult() {
+      std::vector<std::pair<bool, int>> allSubTests;
+
+      for (auto subTest : subTests_) {
+         std::vector<std::pair<bool, int>> newSubTests = subTest->getResult();
+         for (auto element : newSubTests) {
+            allSubTests.push_back(element);
+         }
+      }
+      return allSubTests;
    }
 private:
    std::string description_;
@@ -115,7 +121,7 @@ public:
    void setAnswer(bool result) {
       isAnswerCorrect_ = result;
    }
-   virtual const std::vector<std::pair<bool, int>>& getResult() {
+   virtual std::vector<std::pair<bool, int>> getResult() {
       std::vector<std::pair<bool, int>> result;
       result.push_back(std::make_pair(isAnswerCorrect_, ponderation_));
       return result;
@@ -137,6 +143,7 @@ public:
    virtual bool isPassed() {
       return isAnswerCorrect_;
    }
+
 private:
    bool isAnswerCorrect_;
    int ponderation_;
@@ -202,6 +209,9 @@ BeginTesting
          BeginTest("Asserting", 20)
             int x = 6;
             ExpectEqual(x, 5)
+            ExpectEqual(x, 9)
+            ExpectEqual(x, 4)
+            ExpectEqual(x, 2)
          EndTest
    EndTestSuite
 
