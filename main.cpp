@@ -78,12 +78,6 @@ class Test {
       const std::string& getDescription() {
          return description_;
       }
-      const int getPonderation() {
-         return ponderation_;
-      }
-      void setPonderation(int ponderation) {
-         ponderation_ = ponderation;
-      }
       void setDescription(const std::string& description) {
          description_ = description;
       }
@@ -93,14 +87,20 @@ class Test {
    private:
    std::string description_;
    std::vector<Test> subTests_;
-   int ponderation_;
 };
 
 // leaf
 class UnitTest: public Test {
    public:
       UnitTest(): Test() {}
+      const int getPonderation() {
+         return ponderation_;
+      }
+      void setPonderation(int ponderation) {
+         ponderation_ = ponderation;
+      }
    private:
+      int ponderation_;
 };
 
 //
