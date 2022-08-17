@@ -161,7 +161,11 @@ public:
    std::shared_ptr<TestSuite> testSuite = std::make_shared<TestSuite>(testName);\
    container.addSubTest(testSuite);
 
-#define EndTestSuite }
+#define EndTestSuite \
+   for(std::shared_ptr<Test> test: container.getSubTests()){\
+      test->print();\
+   }\
+}
 
 
 // TODO: Add a queue so that all tests are going to 
