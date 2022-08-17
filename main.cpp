@@ -84,15 +84,19 @@ class Test {
       const std::vector<Test>& getSubTests() {
          return subTests_;
       }
+      const std::vector<std::pair<int, int>>& getResult() {
+         return results_;
+      }
    private:
    std::string description_;
    std::vector<Test> subTests_;
+   std::vector<std::pair<int, int>> results_;
 };
 
 // leaf
 class UnitTest: public Test {
    public:
-      UnitTest(): Test() {}
+      UnitTest(int ponderation): Test(), ponderation_(ponderation){}
       const int getPonderation() {
          return ponderation_;
       }
