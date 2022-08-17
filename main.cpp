@@ -65,8 +65,17 @@ public:
    virtual void addTest(std::shared_ptr<Test> subTest) {
       subTests_.push_back(subTest);
    }
-   virtual const std::vector<std::pair<bool, int>>& getResult() = 0;
-   virtual void print() = 0;
+   virtual void print() {
+      std::cout << description_ << std::endl;
+      for (auto test : getSubTests()) {
+         test->print();
+      }
+   }
+   virtual const std::vector<std::pair<bool, int>>& getResult() {
+      std::vector<std::pair<bool, int>> result;
+      result.push_back(std::make_pair(false, 1));
+      return result;
+   }
 private:
    std::string description_;
    std::vector<std::shared_ptr<Test>> subTests_;
@@ -93,8 +102,14 @@ public:
       result.push_back(std::make_pair(isAnswerCorrect_, ponderation_));
       return result;
    }
+   // redefine
    virtual void print() {
-
+      if (isAnswerCorrect_) {
+         std::cout << "[X] Test passed" << std::endl;
+      }
+      else {
+         std::cout << "[ ] Test failed" << std::endl;
+      }
    }
    void addSubTest() {}
 private:
@@ -107,14 +122,6 @@ class TestSuite : public Test {
 public:
    TestSuite() : Test() {}
    TestSuite(const std::string& description): Test() {}
-   virtual const std::vector<std::pair<bool, int>>& getResult() {
-      std::vector<std::pair<bool, int>> result;
-      result.push_back(std::make_pair(false, 1));
-      return result;
-   }
-   virtual void print() {
-
-   }
    void addSubTest(std::shared_ptr<UnitTest> unitTest) {
       Test::addTest(unitTest);
    }
@@ -124,17 +131,6 @@ public:
 class TestContainer : public Test {
 public:
    TestContainer() : Test() {}
-   virtual const std::vector<std::pair<bool, int>>& getResult() {
-      std::vector<std::pair<bool, int>> result;
-      result.push_back(std::make_pair(false, 1));
-      return result;
-   }
-   virtual void print() {
-      std::vector<std::shared_ptr<Test>> subTests = getSubTests();
-      for (auto test : subTests) {
-         test->print();
-      }
-   }
    void present() {
       setTextColor(Font::BlackGreen);
       std::cout << "=================================" << std::endl;
@@ -161,11 +157,7 @@ public:
    std::shared_ptr<TestSuite> testSuite = std::make_shared<TestSuite>(testName);\
    container.addSubTest(testSuite);
 
-#define EndTestSuite \
-   for(std::shared_ptr<Test> test: container.getSubTests()){\
-      test->print();\
-   }\
-}
+#define EndTestSuite }
 
 
 // TODO: Add a queue so that all tests are going to 
