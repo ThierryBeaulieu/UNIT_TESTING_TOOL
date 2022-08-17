@@ -1,5 +1,5 @@
 # UNIT_TESTING_TOOL
-This tool serves as a simple library to help teacher assistants like myself to make unit tests without having to include external libraries.
+This tool serves as a simple library to help teacher assistants like myself to make unit tests without having to include external libraries. All you need is to add the header and the cpp.hint file to your project and the library should work like a charm.
 
 ## How to use
 Here is a quick example to show how to use the library.
