@@ -82,7 +82,6 @@ protected:
    std::vector<std::shared_ptr<Test>> subTests_;
 };
 
-// leaf
 class UnitTest : public Test {
 public:
    UnitTest(std::string description, int ponderation) : Test(description), ponderation_(ponderation), isAnswerCorrect_(false) {}
@@ -103,7 +102,6 @@ public:
       result.push_back(std::make_pair(isAnswerCorrect_, ponderation_));
       return result;
    }
-   // redefine
    virtual void print() {
       if (isAnswerCorrect_) {
          std::cout << "[X] Test passed" << std::endl;
@@ -118,10 +116,8 @@ private:
    int ponderation_;
 };
 
-//
 class TestSuite : public Test {
 public:
-   TestSuite() : Test() {}
    TestSuite(const std::string& description): Test() {}
    void addSubTest(std::shared_ptr<UnitTest> unitTest) {
       Test::addTest(unitTest);
@@ -143,7 +139,7 @@ public:
       Test::addTest(testSuite);
    }
    void addSubTest(std::shared_ptr<UnitTest> unitTest) {
-      subTests_.back()->addTest(unitTest);
+      Test::subTests_.back()->addTest(unitTest);
    }
 };
 
