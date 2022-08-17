@@ -1,0 +1,30 @@
+#define BeginTesting { \
+   TestContainer container = TestContainer(); \
+   container.present();
+
+#define EndTesting \
+   container.print();\
+}
+
+#define BeginTestSuite(testName) {\
+   std::shared_ptr<TestSuite> testSuite = std::make_shared<TestSuite>(testName);\
+   container.addSubTest(testSuite);
+
+#define EndTestSuite }
+
+#define BeginTest(testName, ponderation) {\
+   std::shared_ptr<UnitTest> unitTest = std::make_shared<UnitTest>(testName, ponderation);\
+
+#define EndTest \
+   container.addSubTest(unitTest);\
+}
+
+#define ExpectEqual(element1, element2)\
+   if(element1 != element2){\
+      unitTest->setAnswer(false);\
+   }
+
+#define ExpectNEq(element1, element2)\
+   if(element1 == element2){\
+      unitTest->setAnswer(false);\
+   }#define BeginTest(testName, ponderation) { std::shared_ptr<UnitTest> unitTest = std::make_shared<UnitTest>(testName, ponderation);
