@@ -108,7 +108,7 @@ protected:
 
 class UnitTest : public Test {
 public:
-   UnitTest(const std::string& description, int ponderation) : Test(description), ponderation_(ponderation), isAnswerCorrect_(false) {}
+   UnitTest(const std::string& description, int ponderation) : Test(description), ponderation_(ponderation), isAnswerCorrect_(true) {}
    const int getPonderation() {
       return ponderation_;
    }
@@ -197,21 +197,25 @@ public:
 // be verified before using a color?
 #define BeginTest(testName, ponderation) {\
    std::shared_ptr<UnitTest> unitTest = std::make_shared<UnitTest>(testName, ponderation);\
-   container.addSubTest(unitTest);
 
-#define EndTest }
+#define EndTest \
+   container.addSubTest(unitTest);\
+}
 
-#define ExpectEqual(element1, element2)
+#define ExpectEqual(element1, element2)\
+   if(element1 != element2){\
+      unitTest->setAnswer(false);\
+   }
 
 int main() {
 BeginTesting
       BeginTestSuite("Second test suite")
          BeginTest("Asserting", 20)
             int x = 6;
-            ExpectEqual(x, 5)
-            ExpectEqual(x, 9)
-            ExpectEqual(x, 4)
-            ExpectEqual(x, 2)
+            ExpectEqual(x, 6)
+            ExpectEqual(x, 6)
+            ExpectEqual(x, 6)
+            ExpectEqual(x, 6)
          EndTest
    EndTestSuite
 
