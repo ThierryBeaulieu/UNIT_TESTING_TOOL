@@ -78,6 +78,7 @@ public:
    }
 private:
    std::string description_;
+protected:
    std::vector<std::shared_ptr<Test>> subTests_;
 };
 
@@ -140,6 +141,9 @@ public:
    }
    void addSubTest(std::shared_ptr<TestSuite> testSuite) {
       Test::addTest(testSuite);
+   }
+   void addSubTest(std::shared_ptr<UnitTest> unitTest) {
+      subTests_.back()->addTest(unitTest);
    }
 };
 
