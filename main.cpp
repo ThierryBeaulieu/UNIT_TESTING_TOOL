@@ -97,7 +97,9 @@ class TestSuite : public Test {
 public:
    TestSuite() : Test() {}
    virtual const std::vector<std::pair<bool, int>>& getResult() {
-
+      std::vector<std::pair<bool, int>> result;
+      result.push_back(std::make_pair(false, 1));
+      return result;
    }
    virtual void print() {
 
@@ -110,16 +112,25 @@ class TestContainer : public Test {
 public:
    TestContainer() : Test() {}
    virtual const std::vector<std::pair<bool, int>>& getResult() {
-
+      std::vector<std::pair<bool, int>> result;
+      result.push_back(std::make_pair(false, 1));
+      return result;
    }
    virtual void print() {
-
+      std::cout << "This is a container" << std::endl;
    }
 private:
 };
 
 
-#define BeginTestSuite(testName) {
+#define BeginTesting { \
+   TestContainer container = TestContainer(); \
+   container.print();
+
+#define EndTesting }
+
+
+#define BeginTestSuite(testName) {\
 
 #define EndTestSuite }
 
@@ -132,10 +143,6 @@ private:
 
 
 #define ExpectEqual(element1, element2)
-
-#define BeginTesting
-#define EndTesting
-
 
 int main() {
 BeginTesting
