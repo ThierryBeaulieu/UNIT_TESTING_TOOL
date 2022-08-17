@@ -75,7 +75,7 @@ private:
 // leaf
 class UnitTest : public Test {
 public:
-   UnitTest(int ponderation, bool isAnswerCorrect) : Test(), ponderation_(ponderation), isAnswerCorrect_(isAnswerCorrect) {}
+   UnitTest(std::string description, int ponderation) : Test(description), ponderation_(ponderation), isAnswerCorrect_(false) {}
    const int getPonderation() {
       return ponderation_;
    }
@@ -159,13 +159,15 @@ public:
 
 #define BeginTestSuite(testName) {\
    std::shared_ptr<TestSuite> testSuite = std::make_shared<TestSuite>(testName);
+
+
 #define EndTestSuite }
 
 
 // TODO: Add a queue so that all tests are going to 
 // be verified before using a color?
-#define BeginTest(testName, ponderation) {
-
+#define BeginTest(testName, ponderation) {\
+   std::shared_ptr<UnitTest> unitTest = std::make_shared<UnitTest>(testName, ponderation);
 #define EndTest }
 
 
