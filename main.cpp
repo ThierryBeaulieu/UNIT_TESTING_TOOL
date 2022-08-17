@@ -75,6 +75,19 @@ void printUnit(const std::string& testName) {
 
 class Test {
    public:
+      Test(){}
+   private:
+};
+
+class TestSuite {
+   public:
+      TestSuite(){}
+   private:
+};
+
+class TestContainer {
+   public:
+      TestContainer(){}
    private:
 };
 
