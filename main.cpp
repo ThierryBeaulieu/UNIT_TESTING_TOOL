@@ -87,6 +87,7 @@ class Test {
          return subTests_;
       }
       virtual const std::vector<std::pair<bool, int>>& getResult() = 0;
+      virtual void print() = 0;
    private:
    std::string description_;
    std::vector<Test> subTests_;
@@ -95,7 +96,7 @@ class Test {
 // leaf
 class UnitTest: public Test {
    public:
-      UnitTest(int ponderation): Test(), ponderation_(ponderation){}
+      UnitTest(int ponderation, bool isAnswerCorrect): Test(), ponderation_(ponderation), isAnswerCorrect_(isAnswerCorrect) {}
       const int getPonderation() {
          return ponderation_;
       }
@@ -113,6 +114,9 @@ class UnitTest: public Test {
          result.push_back(std::make_pair(isAnswerCorrect_, ponderation_));
          return result;
       }
+      virtual void print() {
+
+      }
    private:
       bool isAnswerCorrect_;
       int ponderation_;
@@ -122,13 +126,25 @@ class UnitTest: public Test {
 class TestSuite: public Test {
    public:
       TestSuite(): Test() {}
+      virtual const std::vector<std::pair<bool, int>>& getResult() {
 
+      }
+      virtual void print() {
+
+      }
    private:
 };
 
+// Doit être un singleton
 class TestContainer: public Test {
    public:
       TestContainer(): Test() {}
+      virtual const std::vector<std::pair<bool, int>>& getResult() {
+
+      }
+      virtual void print() {
+
+      }
    private:
 };
 
