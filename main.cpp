@@ -118,7 +118,7 @@ private:
 
 class TestSuite : public Test {
 public:
-   TestSuite(const std::string& description): Test() {}
+   TestSuite(const std::string& description): Test(description) {}
    void addSubTest(std::shared_ptr<UnitTest> unitTest) {
       Test::addTest(unitTest);
    }
