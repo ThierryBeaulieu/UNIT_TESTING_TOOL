@@ -158,8 +158,8 @@ public:
 
 
 #define BeginTestSuite(testName) {\
-   std::shared_ptr<TestSuite> testSuite = std::make_shared<TestSuite>(testName);
-
+   std::shared_ptr<TestSuite> testSuite = std::make_shared<TestSuite>(testName);\
+   container.addSubTest(testSuite);
 
 #define EndTestSuite }
 
@@ -168,8 +168,9 @@ public:
 // be verified before using a color?
 #define BeginTest(testName, ponderation) {\
    std::shared_ptr<UnitTest> unitTest = std::make_shared<UnitTest>(testName, ponderation);
-#define EndTest }
 
+
+#define EndTest }
 
 #define ExpectEqual(element1, element2)
 
