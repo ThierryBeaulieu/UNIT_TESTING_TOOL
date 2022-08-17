@@ -9,10 +9,84 @@
 #include <windows.h>
 #endif
 
+class Test {
+public:
+   const std::string& getDescription() {
+      return description_;
+   }
+   void setDescription(const std::string& description) {
+      description_ = description;
+   }
+   const std::vector<Test>& getSubTests() {
+      return subTests_;
+   }
+   virtual const std::vector<std::pair<bool, int>>& getResult() = 0;
+   virtual void print() = 0;
+private:
+   std::string description_;
+   std::vector<Test> subTests_;
+};
+
+// leaf
+class UnitTest : public Test {
+public:
+   UnitTest(int ponderation, bool isAnswerCorrect) : Test(), ponderation_(ponderation), isAnswerCorrect_(isAnswerCorrect) {}
+   const int getPonderation() {
+      return ponderation_;
+   }
+   void setPonderation(int ponderation) {
+      ponderation_ = ponderation;
+   }
+   bool isAnswerCorrect() {
+      return isAnswerCorrect_;
+   }
+   void setAnswer(bool result) {
+      isAnswerCorrect_ = result;
+   }
+   virtual const std::vector<std::pair<bool, int>>& getResult() {
+      std::vector<std::pair<bool, int>> result;
+      result.push_back(std::make_pair(isAnswerCorrect_, ponderation_));
+      return result;
+   }
+   virtual void print() {
+
+   }
+private:
+   bool isAnswerCorrect_;
+   int ponderation_;
+};
+
+//
+class TestSuite : public Test {
+public:
+   TestSuite() : Test() {}
+   virtual const std::vector<std::pair<bool, int>>& getResult() {
+
+   }
+   virtual void print() {
+
+   }
+private:
+};
+
+// Doit être un singleton
+class TestContainer : public Test {
+public:
+   TestContainer() : Test() {}
+   virtual const std::vector<std::pair<bool, int>>& getResult() {
+
+   }
+   virtual void print() {
+
+   }
+private:
+};
+
+
 enum Font {
-   Green = 10,
+   GreenBlack = 10,
    BlackGreen = 160,
-   Original = 15,
+   WhiteBlack = 15,
    GreenYellow = 16,
 };
 
@@ -44,7 +118,7 @@ void resetTextColor() {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
    HANDLE console_color;
    console_color = GetStdHandle(STD_OUTPUT_HANDLE);
-   SetConsoleTextAttribute(console_color, Font::Original);
+   SetConsoleTextAttribute(console_color, Font::WhiteBlack);
 #endif
 }
 
@@ -63,7 +137,7 @@ void printUnit(const std::string& testName) {
 // TODO: Add a queue so that all tests are going to 
 // be verified before using a color?
 #define BeginTest(testName, ponderation) {\
-   setTextColor(Font::Green);\
+   setTextColor(Font::GreenBlack);\
    printUnit(testName);\
    resetTextColor();
 
@@ -74,79 +148,6 @@ void printUnit(const std::string& testName) {
    if (element1 == element2){\
    std::cout << "Hello world" << std::endl;\
    }
-
-class Test {
-   public:
-      const std::string& getDescription() {
-         return description_;
-      }
-      void setDescription(const std::string& description) {
-         description_ = description;
-      }
-      const std::vector<Test>& getSubTests() {
-         return subTests_;
-      }
-      virtual const std::vector<std::pair<bool, int>>& getResult() = 0;
-      virtual void print() = 0;
-   private:
-   std::string description_;
-   std::vector<Test> subTests_;
-};
-
-// leaf
-class UnitTest: public Test {
-   public:
-      UnitTest(int ponderation, bool isAnswerCorrect): Test(), ponderation_(ponderation), isAnswerCorrect_(isAnswerCorrect) {}
-      const int getPonderation() {
-         return ponderation_;
-      }
-      void setPonderation(int ponderation) {
-         ponderation_ = ponderation;
-      }
-      bool isAnswerCorrect() {
-         return isAnswerCorrect_;
-      }
-      void setAnswer(bool result) {
-         isAnswerCorrect_ = result;
-      }
-      virtual const std::vector<std::pair<bool, int>>& getResult() {
-         std::vector<std::pair<bool, int>> result;
-         result.push_back(std::make_pair(isAnswerCorrect_, ponderation_));
-         return result;
-      }
-      virtual void print() {
-
-      }
-   private:
-      bool isAnswerCorrect_;
-      int ponderation_;
-};
-
-//
-class TestSuite: public Test {
-   public:
-      TestSuite(): Test() {}
-      virtual const std::vector<std::pair<bool, int>>& getResult() {
-
-      }
-      virtual void print() {
-
-      }
-   private:
-};
-
-// Doit être un singleton
-class TestContainer: public Test {
-   public:
-      TestContainer(): Test() {}
-      virtual const std::vector<std::pair<bool, int>>& getResult() {
-
-      }
-      virtual void print() {
-
-      }
-   private:
-};
 
 #define BeginTesting
 #define EndTesting
