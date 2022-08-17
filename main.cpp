@@ -58,6 +58,9 @@ public:
    std::vector<std::shared_ptr<Test>> getSubTests() {
       return subTests_;
    }
+   virtual void addTest(std::shared_ptr<Test> subTest) {
+      subTests_.push_back(subTest);
+   }
    virtual const std::vector<std::pair<bool, int>>& getResult() = 0;
    virtual void print() = 0;
 private:
@@ -89,6 +92,9 @@ public:
    virtual void print() {
 
    }
+   void addSubTest() {
+
+   }
 private:
    bool isAnswerCorrect_;
    int ponderation_;
@@ -106,7 +112,9 @@ public:
    virtual void print() {
 
    }
-private:
+   void addSubTest(std::shared_ptr<UnitTest> unitTest) {
+      
+   }
 };
 
 // Doit être un singleton
@@ -129,7 +137,9 @@ public:
          test->print();
       }
    }
-private:
+   void addSubTest() {
+
+   }
 };
 
 
