@@ -40,8 +40,10 @@ public:
    UnitTest(const std::string& description, int ponderation);
    ~UnitTest();
    void printResult();
+   std::pair<bool, int> getResult();
 private:
    int ponderation_;
+   bool isTestPassing_;
 };
 
 // container
