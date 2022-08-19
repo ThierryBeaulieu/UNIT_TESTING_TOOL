@@ -5,6 +5,7 @@
 #include <utility>
 #include <string>
 #include <memory>
+#include <iterator>
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <windows.h>
 #endif
@@ -49,6 +50,7 @@ public:
    TestSection(const std::string& description);
    ~TestSection();
    void printResult();
+   void addTest(std::shared_ptr<Test> test);
 private:
    std::vector<std::shared_ptr<Test>> tests_;
 };
@@ -58,6 +60,8 @@ class TestContainer {
 public:
    static TestContainer* getInstance();
    void printResult();
+   void addTestSection(std::shared_ptr<Test> testSection);
+   void addTest(std::shared_ptr<Test> test);
 private:
    TestContainer();
    static TestContainer* instance_;
@@ -73,7 +77,8 @@ private:
 }
 
 
-#define BeginTestSection(testName) {
+#define BeginTestSection(testName) { \
+   testContainer->addTestSection(std::make_shared<TestSection>(testName));
 
 #define EndTestSection }
 

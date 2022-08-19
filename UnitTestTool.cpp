@@ -48,6 +48,9 @@ void TestSection::printResult(){
       test->printResult();
    }
 }
+void TestSection::addTest(std::shared_ptr<Test> test) {
+   tests_.push_back(test);
+}
 
 
 TestContainer::TestContainer() {}
@@ -64,5 +67,17 @@ TestContainer* TestContainer::getInstance() {
 void TestContainer::printResult() {
    for (std::shared_ptr<Test> test : tests_) {
       test->printResult();
+   }
+}
+void TestContainer::addTestSection(std::shared_ptr<Test> testSection) {
+   tests_.push_back(testSection);
+}
+void TestContainer::addTest(std::shared_ptr<Test> test) {
+   std::vector<std::shared_ptr<Test>>::iterator it;
+
+   for (it = tests_.begin(); it < tests_.end(); it++) {
+      if (TestSection* testSection = dynamic_cast<TestSection*>(it->get())) {
+         testSection->addTest(test);
+      }
    }
 }
