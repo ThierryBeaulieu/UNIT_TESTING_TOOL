@@ -32,26 +32,33 @@ namespace Design {
 #endif
 }
 
+
 Test::Test(const std::string& description): description_(description) {}
 
 
 UnitTest::UnitTest(const std::string& description): Test(description){}
-
 UnitTest::~UnitTest(){}
+void UnitTest::printResult(){}
 
 
 TestSuite::TestSuite(const std::string& description): Test(description){}
-
 TestSuite::~TestSuite(){}
+void TestSuite::printResult(){}
 
 
+TestContainer::TestContainer() {}
 TestContainer* TestContainer::instance_ = nullptr;
-
 TestContainer* TestContainer::getInstance() {
    if (TestContainer::instance_ == nullptr) {
       TestContainer::instance_ = new TestContainer();
    }
+   else {
+      abort();
+   }
    return TestContainer::instance_;
 }
-
-TestContainer::TestContainer(){}
+void TestContainer::printResult() {
+   for (std::shared_ptr<Test> test : tests_) {
+      test->printResult();
+   }
+}

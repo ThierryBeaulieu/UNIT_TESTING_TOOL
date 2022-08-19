@@ -4,7 +4,7 @@
 int main() {
 BeginTesting
 
-BeginTestSuite("First test suite")
+BeginTestSection("First test suite")
    BeginTest("Simple assertion", 20)
       int x = 6;
       ExpectEqual(x, 6)
@@ -12,7 +12,7 @@ BeginTestSuite("First test suite")
    BeginTest("Verify pointers", 10)
       ExpectNEq(house, building);
    EndTest
-EndTestSuite
+EndTestSection
 
 EndTesting
    return 0;

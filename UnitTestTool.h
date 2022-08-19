@@ -28,6 +28,7 @@ namespace Design {
 class Test {
 public:
    Test(const std::string& description);
+   virtual void printResult() = 0;
 private:
    std::string description_;
 };
@@ -37,6 +38,7 @@ class UnitTest : public Test {
 public:
    UnitTest(const std::string& description);
    ~UnitTest();
+   void printResult();
 private:
    
 };
@@ -46,6 +48,7 @@ class TestSuite : public Test {
 public:
    TestSuite(const std::string& description);
    ~TestSuite();
+   void printResult();
 private:
    std::vector<std::shared_ptr<Test>> tests_;
 };
@@ -54,7 +57,7 @@ private:
 class TestContainer {
 public:
    static TestContainer* getInstance();
-
+   void printResult();
 private:
    TestContainer();
    static TestContainer* instance_;
@@ -65,13 +68,14 @@ private:
    TestContainer * testContainer = TestContainer::getInstance();
 
 #define EndTesting \
+   testContainer->printResult(); \
    delete testContainer; \
 }
 
 
-#define BeginTestSuite(testName) {
+#define BeginTestSection(testName) {
 
-#define EndTestSuite }
+#define EndTestSection }
 
 
 #define BeginTest(testName, ponderation) {
