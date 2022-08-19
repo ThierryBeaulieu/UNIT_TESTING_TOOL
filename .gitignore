@@ -19,8 +19,9 @@ build/
 *.vcxproj
 *.stamp
 
-# file produce by Debug
+# file produce by Debug or Release
 Debug/
+Release/
 
 # ignoring mac files
 .DS_Store
