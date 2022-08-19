@@ -37,11 +37,11 @@ private:
 // leaf
 class UnitTest : public Test {
 public:
-   UnitTest(const std::string& description);
+   UnitTest(const std::string& description, int ponderation);
    ~UnitTest();
    void printResult();
 private:
-   
+   int ponderation_;
 };
 
 // container
@@ -59,26 +59,26 @@ private:
 class TestContainer {
 public:
    static TestContainer* getInstance();
+   TestContainer(TestContainer& testContainerCopy) = delete;
+   void operator=(const TestContainer&) = delete;
    void printResult();
    void addTestSection(std::shared_ptr<Test> testSection);
    void addTest(std::shared_ptr<Test> test);
 private:
-   TestContainer();
+   TestContainer() = default;
    static TestContainer* instance_;
    std::vector<std::shared_ptr<Test>> tests_;
 };
 
 #define BeginTesting {\
-   TestContainer * testContainer = TestContainer::getInstance();
 
 #define EndTesting \
-   testContainer->printResult(); \
-   delete testContainer; \
+   TestContainer::getInstance()->printResult(); \
 }
 
 
 #define BeginTestSection(testName) { \
-   testContainer->addTestSection(std::make_shared<TestSection>(testName));
+   TestContainer::getInstance()->addTestSection(std::make_shared<TestSection>(testName));
 
 #define EndTestSection }
 

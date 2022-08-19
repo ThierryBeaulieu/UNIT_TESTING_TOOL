@@ -36,7 +36,11 @@ namespace Design {
 Test::Test(const std::string& description): description_(description) {}
 
 
-UnitTest::UnitTest(const std::string& description): Test(description){}
+UnitTest::UnitTest(const std::string& description, int ponderation): Test(description)
+{
+   if(ponderation > 10 || ponderation < 0) abort();
+   ponderation_ = ponderation;
+}
 UnitTest::~UnitTest(){}
 void UnitTest::printResult(){}
 
@@ -53,14 +57,10 @@ void TestSection::addTest(std::shared_ptr<Test> test) {
 }
 
 
-TestContainer::TestContainer() {}
 TestContainer* TestContainer::instance_ = nullptr;
 TestContainer* TestContainer::getInstance() {
    if (TestContainer::instance_ == nullptr) {
       TestContainer::instance_ = new TestContainer();
-   }
-   else {
-      abort();
    }
    return TestContainer::instance_;
 }
