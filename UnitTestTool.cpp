@@ -41,9 +41,13 @@ UnitTest::~UnitTest(){}
 void UnitTest::printResult(){}
 
 
-TestSuite::TestSuite(const std::string& description): Test(description){}
-TestSuite::~TestSuite(){}
-void TestSuite::printResult(){}
+TestSection::TestSection(const std::string& description): Test(description){}
+TestSection::~TestSection(){}
+void TestSection::printResult(){
+   for(std::shared_ptr<Test> test: tests_){
+      test->printResult();
+   }
+}
 
 
 TestContainer::TestContainer() {}

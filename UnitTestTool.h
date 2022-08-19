@@ -44,10 +44,10 @@ private:
 };
 
 // container
-class TestSuite : public Test {
+class TestSection : public Test {
 public:
-   TestSuite(const std::string& description);
-   ~TestSuite();
+   TestSection(const std::string& description);
+   ~TestSection();
    void printResult();
 private:
    std::vector<std::shared_ptr<Test>> tests_;
