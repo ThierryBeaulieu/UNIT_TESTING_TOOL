@@ -45,4 +45,13 @@ TestSuite::TestSuite(const std::string& description): Test(description){}
 TestSuite::~TestSuite(){}
 
 
+TestContainer* TestContainer::instance_ = nullptr;
+
+TestContainer* TestContainer::getInstance() {
+   if (TestContainer::instance_ == nullptr) {
+      TestContainer::instance_ = new TestContainer();
+   }
+   return TestContainer::instance_;
+}
+
 TestContainer::TestContainer(){}

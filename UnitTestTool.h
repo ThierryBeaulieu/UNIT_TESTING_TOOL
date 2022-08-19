@@ -32,24 +32,32 @@ private:
    std::string description_;
 };
 
+// leaf
 class UnitTest : public Test {
 public:
    UnitTest(const std::string& description);
    ~UnitTest();
 private:
+   
 };
 
+// container
 class TestSuite : public Test {
 public:
    TestSuite(const std::string& description);
    ~TestSuite();
+private:
+   std::vector<std::shared_ptr<Test>> tests_;
 };
 
 // Needs to be a singleton
 class TestContainer {
 public:
-   TestContainer();
+   static TestContainer* getInstance();
+
 private:
+   TestContainer();
+   static TestContainer* instance_;
    std::vector<std::shared_ptr<Test>> tests_;
 };
 
