@@ -61,10 +61,12 @@ private:
    std::vector<std::shared_ptr<Test>> tests_;
 };
 
-#define BeginTesting {
+#define BeginTesting {\
+   TestContainer * testContainer = TestContainer::getInstance();
 
-
-#define EndTesting }
+#define EndTesting \
+   delete testContainer; \
+}
 
 
 #define BeginTestSuite(testName) {
