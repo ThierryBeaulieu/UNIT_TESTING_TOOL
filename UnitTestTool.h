@@ -59,6 +59,8 @@ private:
 class TestContainer {
 public:
    static TestContainer* getInstance();
+   static bool getTestingState();
+   static void setTestingState(bool testingState);
    TestContainer(TestContainer& testContainerCopy) = delete;
    void operator=(const TestContainer&) = delete;
    void printResult();
@@ -66,11 +68,18 @@ public:
    void addTest(std::shared_ptr<Test> test);
 private:
    TestContainer() = default;
+   static bool testingState_;
    static TestContainer* instance_;
    std::vector<std::shared_ptr<Test>> tests_;
 };
 
 #define BeginTesting {\
+   if (!TestContainer::getTestingState()){ \
+      TestContainer::setTestingState(true); \
+   } \
+   else { \
+      abort(); \
+   }
 
 #define EndTesting \
    TestContainer::getInstance()->printResult(); \

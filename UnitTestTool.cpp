@@ -57,6 +57,7 @@ void TestSection::addTest(std::shared_ptr<Test> test) {
 }
 
 
+bool TestContainer::testingState_ = false;
 TestContainer* TestContainer::instance_ = nullptr;
 TestContainer* TestContainer::getInstance() {
    if (TestContainer::instance_ == nullptr) {
@@ -81,4 +82,10 @@ void TestContainer::addTest(std::shared_ptr<Test> test) {
       }
    }
    tests_.push_back(test);
+}
+bool TestContainer::getTestingState() {
+   return testingState_;
+}
+void TestContainer::setTestingState(bool testingState) {
+   testingState_ = testingState;
 }
