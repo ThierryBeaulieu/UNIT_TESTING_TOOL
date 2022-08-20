@@ -94,7 +94,8 @@ private:
 #define EndTestSection }
 
 
-#define BeginTest(testName, ponderation) {
+#define BeginTest(testName, ponderation) { \
+   TestContainer::getInstance()->addTest(std::make_shared<UnitTest>(testName, ponderation));
 
 #define EndTest }
 

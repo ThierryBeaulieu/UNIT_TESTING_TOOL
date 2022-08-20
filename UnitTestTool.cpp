@@ -81,7 +81,7 @@ void TestContainer::addTest(std::shared_ptr<Test> test) {
    for (std::vector<std::shared_ptr<Test>>::iterator it = tests_.begin(); it < tests_.end(); it++) {
       if (TestSection* testSection = dynamic_cast<TestSection*>(it->get())) {
          testSection->addTest(test);
-         break;
+         return;
       }
    }
    tests_.push_back(test);
