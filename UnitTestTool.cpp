@@ -72,9 +72,11 @@ TestContainer* TestContainer::getInstance() {
    return TestContainer::instance_;
 }
 void TestContainer::printResult() {
+   std::cout << "Begin tests" << std::endl;
    for (std::shared_ptr<Test> test : tests_) {
       test->printResult();
    }
+   std::cout << "Ending tests" << std::endl;
 }
 void TestContainer::addTestSection(std::shared_ptr<Test> testSection) {
    tests_.push_back(testSection);
