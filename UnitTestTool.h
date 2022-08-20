@@ -61,8 +61,8 @@ private:
 class TestContainer {
 public:
    static TestContainer* getInstance();
-   static bool getTestingState();
-   static void setTestingState(bool testingState);
+   static bool getMutex();
+   static void setMutex(bool mutex);
    TestContainer(TestContainer& testContainerCopy) = delete;
    void operator=(const TestContainer&) = delete;
    void printResult();
@@ -70,14 +70,14 @@ public:
    void addTest(std::shared_ptr<Test> test);
 private:
    TestContainer() = default;
-   static bool testingState_;
+   static bool mutex_;
    static TestContainer* instance_;
    std::vector<std::shared_ptr<Test>> tests_;
 };
 
 #define BeginTesting {\
-   if (!TestContainer::getTestingState()){ \
-      TestContainer::setTestingState(true); \
+   if (!TestContainer::getMutex()){ \
+      TestContainer::setMutex(true); \
    } \
    else { \
       abort(); \

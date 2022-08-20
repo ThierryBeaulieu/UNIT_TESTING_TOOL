@@ -36,7 +36,7 @@ namespace Design {
 Test::Test(const std::string& description): description_(description) {}
 
 
-UnitTest::UnitTest(const std::string& description, int ponderation): Test(description)
+UnitTest::UnitTest(const std::string& description, int ponderation): Test(description), isTestPassing_(false)
 {
    if(ponderation > 10 || ponderation < 0) abort();
    ponderation_ = ponderation;
@@ -60,7 +60,7 @@ void TestSection::addTest(std::shared_ptr<Test> test) {
 }
 
 
-bool TestContainer::testingState_ = false;
+bool TestContainer::mutex_ = false;
 TestContainer* TestContainer::instance_ = nullptr;
 TestContainer* TestContainer::getInstance() {
    if (TestContainer::instance_ == nullptr) {
@@ -86,9 +86,9 @@ void TestContainer::addTest(std::shared_ptr<Test> test) {
    }
    tests_.push_back(test);
 }
-bool TestContainer::getTestingState() {
-   return testingState_;
+bool TestContainer::getMutex() {
+   return mutex_;
 }
-void TestContainer::setTestingState(bool testingState) {
-   testingState_ = testingState;
+void TestContainer::setMutex(bool mutex) {
+   mutex_ = mutex;
 }
