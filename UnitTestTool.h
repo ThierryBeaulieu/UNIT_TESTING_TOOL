@@ -30,7 +30,7 @@ class Test {
 public:
    Test(const std::string& description);
    virtual void printResult() = 0;
-private:
+protected:
    std::string description_;
 };
 
@@ -103,3 +103,8 @@ private:
 #define ExpectEqual(element1, element2) { }
 
 #define ExpectNEq(element1, element2) { }
+
+
+#define PrintTestResults { \
+TestContainer::getInstance()->printResult(); \
+}

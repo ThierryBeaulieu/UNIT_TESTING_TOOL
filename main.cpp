@@ -27,6 +27,8 @@ BeginTestSection("First test suite")
 
 EndTestSection
 
+PrintTestResults
+
 EndTesting
    return 0;
 }

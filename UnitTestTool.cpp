@@ -42,7 +42,9 @@ UnitTest::UnitTest(const std::string& description, int ponderation): Test(descri
    ponderation_ = ponderation;
 }
 UnitTest::~UnitTest(){}
-void UnitTest::printResult(){}
+void UnitTest::printResult(){
+   std::cout << "Unit Test: " << Test::description_ << std::endl;
+}
 std::pair<bool, int> UnitTest::getResult() {
    return std::make_pair(isTestPassing_, ponderation_);
 }
@@ -51,6 +53,7 @@ std::pair<bool, int> UnitTest::getResult() {
 TestSection::TestSection(const std::string& description): Test(description){}
 TestSection::~TestSection(){}
 void TestSection::printResult(){
+   std::cout << "Test section: " << Test::description_ << std::endl;
    for(std::shared_ptr<Test> test: tests_){
       test->printResult();
    }
