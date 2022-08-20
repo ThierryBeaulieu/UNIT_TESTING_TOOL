@@ -55,6 +55,7 @@ TestSection::~TestSection(){}
 void TestSection::printResult(){
    std::cout << "Test section: " << Test::description_ << std::endl;
    for(std::shared_ptr<Test> test: tests_){
+      std::cout << "    ";
       test->printResult();
    }
 }
@@ -74,6 +75,7 @@ TestContainer* TestContainer::getInstance() {
 void TestContainer::printResult() {
    std::cout << "Begin tests" << std::endl;
    for (std::shared_ptr<Test> test : tests_) {
+      std::cout << "    ";
       test->printResult();
    }
    std::cout << "Ending tests" << std::endl;
