@@ -10,3 +10,7 @@ Here is a quick example to show how to use the library.
 Here is the result that you should obtain using the library.
 
 ![Result](https://github.com/ThierryBeaulieu/UNIT_TESTING_TOOL/blob/master/assertion_result.PNG)
+
+## Oh by the way ... 👀
+
+Si tu veux un indice or smthg, j'ai fait une présentation sur Redis. Je dis ça je dis rien 🤷‍♂️
